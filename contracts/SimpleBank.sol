@@ -4,7 +4,7 @@
     https://solidity.readthedocs.io/en/v0.5.0/050-breaking-changes.html
 */
 
-pragma solidity ^0.5.0;
+pragma solidity ^0.5.2;
 
 contract SimpleBank {
 
@@ -69,8 +69,10 @@ contract SimpleBank {
     // Emit the appropriate event
     function enroll() public returns (bool) {
         enrolled[msg.sender] = true;
-        return enrolled[msg.sender];
-        emit LogEnrolled(msg.sender);
+        if(msg.sender == owner){
+    	enrolled[msg.sender] = false;}
+    	emit LogEnrolled(msg.sender);
+    	return enrolled[msg.sender];
     }
 
     /// @notice Deposit ether into bank
@@ -102,7 +104,6 @@ contract SimpleBank {
         balances[msg.sender] -= withdrawAmount;
         emit LogWithdrawal(msg.sender, withdrawAmount, balances[msg.sender]);
         return balances[msg.sender];
-
 
     }
 
